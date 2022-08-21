@@ -2,79 +2,47 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
-  devServer: {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    module: {
 
-    static: './dist',
-
-  },
-
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  module: {
-
-    rules: [
-
-      {
-
-        test: /\.css$/i,
-
-        use: ['style-loader', 'css-loader'],
-
-      },
-      {
-
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-
-        type: 'asset/resource',
-
-      },
-      {
-        test: /\.html$/,
-        use: [
+        rules: [
+    
           {
-            loader: 'html-loader',
-            options: { minimize: true },
-          }
-        ]
-        
-      },
-      {
-
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-
-        type: 'asset/resource',
-
-      },
-      {
-        test: /\.(gif|png|avif|jpe?g)$/,
-        use: [
+    
+            test: /\.css$/i,
+    
+            use: ['style-loader', 'css-loader'],
+    
+          },
           {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'assets/images/'
-            }
-          }
-        ]
+
+            test: /\.(png|svg|jpg|jpeg|gif)$/i,
+    
+            type: 'asset/resource',
+    
+          },
+          {
+            test: /\.html$/i,
+            loader: "html-loader",
+          },
+    
+        ],
+    
       },
+      plugins: [new HtmlWebpackPlugin(
+        {
+            template: './src/index.html',
+            filename: './index.html',
+        }
+      )],
+      optimization: {
 
-    ],
-
-  },
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: './index.html',
-    })
-  ],
-  optimization: {
-
-    runtimeChunk: 'single',
-
-  },
+        runtimeChunk: 'single',
+    
+      },
 };
